@@ -62,13 +62,16 @@ async function getData() {
       "buyerEmail",
       buyerEmail
     );
+
+    //gets seller data and sends it to DOM
+
     const sellerDetails = invoiceData.company.seller;
-    const sellerName = buyerDetails.name;
-    const sellerAddress = buyerDetails.address;
-    const sellerCode = buyerDetails.code;
-    const sellerVat = buyerDetails.vat;
-    const sellerPhone = buyerDetails.phone;
-    const sellerEmail = buyerDetails.email;
+    const sellerName = sellerDetails.name;
+    const sellerAddress = sellerDetails.address;
+    const sellerCode = sellerDetails.code;
+    const sellerVat = sellerDetails.vat;
+    const sellerPhone = sellerDetails.phone;
+    const sellerEmail = sellerDetails.email;
     findByClass("sellerName").innerHTML += generateHtml(
       "sellerName",
       sellerName
