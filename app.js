@@ -102,6 +102,14 @@ async function getData() {
       "sellerEmail",
       sellerEmail
     );
+    // gets product details for the invoice
+    const items = invoiceData.items;
+    for (i = 0; i < items.length; i++) {
+      const description = items[`${i}`].description;
+      const quantity = items[`${i}`].quantity;
+      const price = items[`${i}`].price;
+      const discount = items[`${i}`].discount;
+    }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
