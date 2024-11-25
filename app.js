@@ -36,8 +36,10 @@ async function getData() {
 
 (async function main() {
   try {
-    const buyerDetailsHtml = document.querySelector(".buyer_details");
     const invoiceData = await getData();
+
+    //gets buyer data and sends it to DOM
+
     const buyerDetails = invoiceData.company.buyer;
     const buyerName = buyerDetails.name;
     const buyerAddress = buyerDetails.address;
@@ -45,7 +47,6 @@ async function getData() {
     const buyerVat = buyerDetails.vat;
     const buyerPhone = buyerDetails.phone;
     const buyerEmail = buyerDetails.email;
-    // console.log(findByClass("buyerAddress"));
     findByClass("buyerName").innerHTML += generateHtml("buyerName", buyerName);
     findByClass("buyerAddress").innerHTML += generateHtml(
       "buyerAddress",
@@ -60,6 +61,34 @@ async function getData() {
     findByClass("buyerEmail").innerHTML += generateHtml(
       "buyerEmail",
       buyerEmail
+    );
+    const sellerDetails = invoiceData.company.seller;
+    const sellerName = buyerDetails.name;
+    const sellerAddress = buyerDetails.address;
+    const sellerCode = buyerDetails.code;
+    const sellerVat = buyerDetails.vat;
+    const sellerPhone = buyerDetails.phone;
+    const sellerEmail = buyerDetails.email;
+    findByClass("sellerName").innerHTML += generateHtml(
+      "sellerName",
+      sellerName
+    );
+    findByClass("sellerAddress").innerHTML += generateHtml(
+      "sellerAddress",
+      sellerAddress
+    );
+    findByClass("sellerCode").innerHTML += generateHtml(
+      "sellerCode",
+      sellerCode
+    );
+    findByClass("sellerVat").innerHTML += generateHtml("sellerVat", sellerVat);
+    findByClass("sellerPhone").innerHTML += generateHtml(
+      "sellerPhone",
+      sellerPhone
+    );
+    findByClass("sellerEmail").innerHTML += generateHtml(
+      "sellerEmail",
+      sellerEmail
     );
   } catch (error) {
     console.error("Error fetching or processing data:", error);
