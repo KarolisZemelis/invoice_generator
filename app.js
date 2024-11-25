@@ -14,7 +14,13 @@ async function getData() {
   }
 }
 
-getData();
+(async function main() {
+  try {
+    const invoiceData = await getData();
+    console.log(invoiceData.company.buyer.name);
+  } catch (error) {
+    console.error("Error fetching or processing data:", error);
+  }
+})();
 
-const buyer = data.buyer;
-console.log(buyer);
+console.log(invoiceData);
