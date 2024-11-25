@@ -1,3 +1,12 @@
+/**
+ * Function to generate HTML dynamically based on variable name.
+ * @param {string} variableValue - The value of the variable.
+ * @returns {string} - A string representing the HTML content.
+ */
+function generateHtml(className, variableValue) {
+  return `<div class="${className}">${variableValue}</div>`;
+}
+
 const url = "https://in3.dev/inv/";
 
 async function getData() {
@@ -20,10 +29,7 @@ async function getData() {
     const invoiceData = await getData();
     const buyerDetails = invoiceData.company.buyer;
     const buyerName = buyerDetails.name;
-
-    buyerDetailsHtml.innerHTML = `<div class='buyerName'>${buyerName}</div>`;
-
-    console.log(buyerName);
+    buyerDetailsHtml.innerHTML = generateHtml("buyerName", buyerName);
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
