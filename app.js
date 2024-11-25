@@ -16,11 +16,15 @@ async function getData() {
 
 (async function main() {
   try {
+    const buyerDetailsHtml = document.querySelector(".buyer_details");
     const invoiceData = await getData();
-    console.log(invoiceData.company.buyer.name);
+    const buyerDetails = invoiceData.company.buyer;
+    const buyerName = buyerDetails.name;
+
+    buyerDetailsHtml.innerHTML = `<div class='buyerName'>${buyerName}</div>`;
+
+    console.log(buyerName);
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
 })();
-
-console.log(invoiceData);
