@@ -1,1 +1,1 @@
-.buyer_details{border:1px solid #000}.buyer_details div{display:flex;align-items:center}.buyer_details div div{padding-left:1%}
+.seller_buyer_container{display:flex;justify-content:space-evenly}.buyer_details,.seller_details{border:1px solid #000;width:100%}.buyer_details div,.seller_details div{display:flex;align-items:center}.buyer_details div div,.seller_details div div{padding-left:1%}
