@@ -1,17 +1,31 @@
-.seller_buyer_container {
+.invoice_details_container {
   display: flex;
-  justify-content: space-evenly;
-}
-
-.buyer_details,
-.seller_details {
-  border: 1px solid black;
-  width: 100%;
-  div {
+  flex-direction: column;
+  align-items: center;
+  .number {
     display: flex;
     align-items: center;
     div {
-      padding-left: 1%;
+      padding-left: 5%;
+      white-space: nowrap;
+    }
+  }
+}
+
+.seller_buyer_container {
+  display: flex;
+  justify-content: space-evenly;
+
+  .buyer_details,
+  .seller_details {
+    border: 1px solid black;
+    width: 100%;
+    div {
+      display: flex;
+      align-items: center;
+      div {
+        padding-left: 1%;
+      }
     }
   }
 }

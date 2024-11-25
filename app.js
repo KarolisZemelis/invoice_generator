@@ -38,6 +38,15 @@ async function getData() {
   try {
     const invoiceData = await getData();
 
+    //gets invoice details
+
+    const number = invoiceData.number;
+    const date = invoiceData.date;
+    const dueDate = invoiceData.dueDate;
+
+    findByClass("number").innerHTML += generateHtml("number", number);
+    findByClass("date").innerHTML += generateHtml("date", date);
+
     //gets buyer data and sends it to DOM
 
     const buyerDetails = invoiceData.company.buyer;
