@@ -49,7 +49,7 @@ async function getData() {
             invoiceData[key]
           );
         } else {
-          console.log(`No element found with class "${key}".`);
+          // console.log(`No element found with class "${key}".`);
         }
       }
     }
@@ -89,14 +89,13 @@ async function getData() {
     const invoiceData = await getData();
     const sellerDetails = invoiceData.company.seller;
     const sellerDetailsHtml = document.querySelector(".seller_details");
-    console.log("seller details html :", sellerDetailsHtml);
+
     for (const key in sellerDetails) {
       if (sellerDetails.hasOwnProperty(key)) {
         // Check if there's an element in the document with a class matching the current key
-        console.log(sellerDetailsHtml.classList);
-        // console.log(key);
+
         if (sellerDetailsHtml.querySelector(`.${key}`)) {
-          findByClass(`.${key}`, sellerDetailsHtml).innerHTML += generateHtml(
+          findByClass(`${key}`, sellerDetailsHtml).innerHTML += generateHtml(
             `${key}`,
             sellerDetails[key]
           );
@@ -134,7 +133,7 @@ async function getData() {
     //   sellerEmail
     // );
   } catch (error) {
-    console.error("Error fetching or processing data:", error);
+    // console.error("Error fetching or processing data:", error);
   }
 })();
 
