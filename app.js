@@ -13,8 +13,8 @@ function generateHtml(className, variableValue) {
  * @returns {variable} - Selected variable from DOM
  */
 
-function findByClass(className) {
-  const domVariable = document.querySelector(`.${className}`);
+function findByClass(className, className, parentElement = document) {
+  const domVariable = parentElement.querySelector(`.${className}`);
   return domVariable;
 }
 
@@ -62,29 +62,22 @@ async function getData() {
 (async function getBuyerData() {
   try {
     const invoiceData = await getData();
-
     const buyerDetails = invoiceData.company.buyer;
-    const buyerName = buyerDetails.name;
-    const buyerAddress = buyerDetails.address;
-    const buyerCode = buyerDetails.code;
-    const buyerVat = buyerDetails.vat;
-    const buyerPhone = buyerDetails.phone;
-    const buyerEmail = buyerDetails.email;
-    findByClass("buyerName").innerHTML += generateHtml("buyerName", buyerName);
-    findByClass("buyerAddress").innerHTML += generateHtml(
-      "buyerAddress",
-      buyerAddress
-    );
-    findByClass("buyerCode").innerHTML += generateHtml("buyerCode", buyerCode);
-    findByClass("buyerVat").innerHTML += generateHtml("buyerVat", buyerVat);
-    findByClass("buyerPhone").innerHTML += generateHtml(
-      "buyerPhone",
-      buyerPhone
-    );
-    findByClass("buyerEmail").innerHTML += generateHtml(
-      "buyerEmail",
-      buyerEmail
-    );
+    const buyerDetailsHtml = document.querySelector(".buyer_details");
+
+    for (const key in buyerDetails) {
+      if (buyerDetails.hasOwnProperty(key)) {
+        // Check if there's an element in the document with a class matching the current key
+        if (document.querySelector(`.${key}`)) {
+          findByClass(`${key}`).innerHTML += generateHtml(
+            `${key}`,
+            buyerDetails[key]
+          );
+        } else {
+          console.log(`No element found with class "${key}".`);
+        }
+      }
+    }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
@@ -94,35 +87,52 @@ async function getData() {
 (async function getSellerData() {
   try {
     const invoiceData = await getData();
-
     const sellerDetails = invoiceData.company.seller;
-    const sellerName = sellerDetails.name;
-    const sellerAddress = sellerDetails.address;
-    const sellerCode = sellerDetails.code;
-    const sellerVat = sellerDetails.vat;
-    const sellerPhone = sellerDetails.phone;
-    const sellerEmail = sellerDetails.email;
-    findByClass("sellerName").innerHTML += generateHtml(
-      "sellerName",
-      sellerName
-    );
-    findByClass("sellerAddress").innerHTML += generateHtml(
-      "sellerAddress",
-      sellerAddress
-    );
-    findByClass("sellerCode").innerHTML += generateHtml(
-      "sellerCode",
-      sellerCode
-    );
-    findByClass("sellerVat").innerHTML += generateHtml("sellerVat", sellerVat);
-    findByClass("sellerPhone").innerHTML += generateHtml(
-      "sellerPhone",
-      sellerPhone
-    );
-    findByClass("sellerEmail").innerHTML += generateHtml(
-      "sellerEmail",
-      sellerEmail
-    );
+    const sellerDetailsHtml = document.querySelector(".seller_details");
+    console.log("seller details html :", sellerDetailsHtml);
+    for (const key in sellerDetails) {
+      if (sellerDetails.hasOwnProperty(key)) {
+        // Check if there's an element in the document with a class matching the current key
+        console.log(sellerDetailsHtml.classList);
+        // console.log(key);
+        if (sellerDetailsHtml.querySelector(`.${key}`)) {
+          findByClass(sellerDetailsHtml).innerHTML += generateHtml(
+            `${key}`,
+            sellerDetails[key]
+          );
+        } else {
+          console.log(`No element found with class "${key}".`);
+        }
+      }
+    }
+
+    // const sellerName = sellerDetails.name;
+    // const sellerAddress = sellerDetails.address;
+    // const sellerCode = sellerDetails.code;
+    // const sellerVat = sellerDetails.vat;
+    // const sellerPhone = sellerDetails.phone;
+    // const sellerEmail = sellerDetails.email;
+    // findByClass("sellerName").innerHTML += generateHtml(
+    //   "sellerName",
+    //   sellerName
+    // );
+    // findByClass("sellerAddress").innerHTML += generateHtml(
+    //   "sellerAddress",
+    //   sellerAddress
+    // );
+    // findByClass("sellerCode").innerHTML += generateHtml(
+    //   "sellerCode",
+    //   sellerCode
+    // );
+    // findByClass("sellerVat").innerHTML += generateHtml("sellerVat", sellerVat);
+    // findByClass("sellerPhone").innerHTML += generateHtml(
+    //   "sellerPhone",
+    //   sellerPhone
+    // );
+    // findByClass("sellerEmail").innerHTML += generateHtml(
+    //   "sellerEmail",
+    //   sellerEmail
+    // );
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
