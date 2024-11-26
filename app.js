@@ -115,15 +115,19 @@ async function getData() {
     const invoiceData = await getData();
     const items = invoiceData.items;
     const tableHtml = document.querySelector("tbody");
-    let nrCounter = 0;
+    let nrCounter = 1;
 
     for (i = 0; i < items.length; i++) {
       const tableRow = document.createElement("tr");
       tableHtml.append(tableRow);
+      const tableData = document.createElement("td");
+      tableData.innerHTML += nrCounter;
+      tableRow.append(tableData);
+      nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
-        tableRow.append(tableData);
         tableData.innerHTML += items[i][key];
+        tableRow.append(tableData);
       }
     }
   } catch (error) {
