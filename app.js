@@ -126,8 +126,17 @@ async function getData() {
       nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
-        tableData.innerHTML += items[i][key];
-        tableRow.append(tableData);
+        if (key === "discount" && key != "") {
+          if (items[i][key].type === "fixed") {
+            const discountAmount = items[i][key].value;
+            const tableData = document.createElement("td");
+            tableData.innerHTML += discountAmount;
+            tableRow.append(tableData);
+          }
+        } else {
+          tableData.innerHTML += items[i][key];
+          tableRow.append(tableData);
+        }
       }
     }
   } catch (error) {
