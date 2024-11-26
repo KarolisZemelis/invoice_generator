@@ -39,12 +39,20 @@ async function getData() {
   try {
     const invoiceData = await getData();
 
-    const number = invoiceData.number;
-    const date = invoiceData.date;
-    const dueDate = invoiceData.dueDate;
+    for (const key in invoiceData) {
+      if (invoiceData.hasOwnProperty(key)) {
+        // Check if there's an element in the document with a class matching the current key
 
-    findByClass("number").innerHTML += generateHtml("number", number);
-    findByClass("date").innerHTML += generateHtml("date", date);
+        if (document.querySelector(`.${key}`)) {
+          findByClass(`${key}`).innerHTML += generateHtml(
+            `${key}`,
+            invoiceData[key]
+          );
+        } else {
+          console.log(`No element found with class "${key}".`);
+        }
+      }
+    }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
