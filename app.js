@@ -13,7 +13,7 @@ function generateHtml(className, variableValue) {
  * @returns {variable} - Selected variable from DOM
  */
 
-function findByClass(className, className, parentElement = document) {
+function findByClass(className, parentElement = document) {
   const domVariable = parentElement.querySelector(`.${className}`);
   return domVariable;
 }
@@ -96,7 +96,7 @@ async function getData() {
         console.log(sellerDetailsHtml.classList);
         // console.log(key);
         if (sellerDetailsHtml.querySelector(`.${key}`)) {
-          findByClass(sellerDetailsHtml).innerHTML += generateHtml(
+          findByClass(`.${key}`, sellerDetailsHtml).innerHTML += generateHtml(
             `${key}`,
             sellerDetails[key]
           );
