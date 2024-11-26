@@ -126,11 +126,23 @@ async function getData() {
       nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
+        let discountAmount = 0;
         if (key === "discount" && key != "") {
           if (items[i][key].type === "fixed") {
-            const discountAmount = items[i][key].value;
             const tableData = document.createElement("td");
+            discountAmount = items[i][key].value;
             tableData.innerHTML += discountAmount;
+            tableRow.append(tableData);
+          } else if (items[i][key].type === "percentage" && key != "") {
+            const tableData = document.createElement("td");
+            discountAmount = parseFloat(
+              items[i].price * (items[i][key].value / 100)
+            ).toFixed(2);
+            tableData.innerHTML += discountAmount;
+            tableRow.append(tableData);
+          } else {
+            const tableData = document.createElement("td");
+            tableData.innerHTML += "";
             tableRow.append(tableData);
           }
         } else {
