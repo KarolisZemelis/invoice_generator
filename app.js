@@ -8,7 +8,7 @@ function generateHtml(className, variableValue) {
 }
 
 /**
- * Function to find  DOM object with given class name and assign it to an aobject
+ * Function to find  DOM object with given class name and assign it to an object
  * @param {string} className - The value of the className found in DOM
  * @returns {variable} - Selected variable from DOM
  */
@@ -34,11 +34,10 @@ async function getData() {
   }
 }
 
-(async function main() {
+//gets invoice details
+(async function getInvoiceData() {
   try {
     const invoiceData = await getData();
-
-    //gets invoice details
 
     const number = invoiceData.number;
     const date = invoiceData.date;
@@ -46,8 +45,15 @@ async function getData() {
 
     findByClass("number").innerHTML += generateHtml("number", number);
     findByClass("date").innerHTML += generateHtml("date", date);
+  } catch (error) {
+    console.error("Error fetching or processing data:", error);
+  }
+})();
 
-    //gets buyer data and sends it to DOM
+//gets buyer data and sends it to DOM
+(async function getBuyerData() {
+  try {
+    const invoiceData = await getData();
 
     const buyerDetails = invoiceData.company.buyer;
     const buyerName = buyerDetails.name;
@@ -71,8 +77,15 @@ async function getData() {
       "buyerEmail",
       buyerEmail
     );
+  } catch (error) {
+    console.error("Error fetching or processing data:", error);
+  }
+})();
 
-    //gets seller data and sends it to DOM
+//gets seller data and sends it to DOM
+(async function getSellerData() {
+  try {
+    const invoiceData = await getData();
 
     const sellerDetails = invoiceData.company.seller;
     const sellerName = sellerDetails.name;
@@ -102,8 +115,18 @@ async function getData() {
       "sellerEmail",
       sellerEmail
     );
-    // gets product details for the invoice
+  } catch (error) {
+    console.error("Error fetching or processing data:", error);
+  }
+})();
+
+// gets product details for the invoice
+(async function getProductData() {
+  try {
+    const invoiceData = await getData();
+
     const items = invoiceData.items;
+
     for (i = 0; i < items.length; i++) {
       const description = items[`${i}`].description;
       const quantity = items[`${i}`].quantity;
