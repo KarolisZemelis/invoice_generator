@@ -49,7 +49,7 @@ async function getData() {
             invoiceData[key]
           );
         } else {
-          // console.log(`No element found with class "${key}".`);
+          console.log(`No element found with class "${key}".`);
         }
       }
     }
@@ -104,36 +104,8 @@ async function getData() {
         }
       }
     }
-
-    // const sellerName = sellerDetails.name;
-    // const sellerAddress = sellerDetails.address;
-    // const sellerCode = sellerDetails.code;
-    // const sellerVat = sellerDetails.vat;
-    // const sellerPhone = sellerDetails.phone;
-    // const sellerEmail = sellerDetails.email;
-    // findByClass("sellerName").innerHTML += generateHtml(
-    //   "sellerName",
-    //   sellerName
-    // );
-    // findByClass("sellerAddress").innerHTML += generateHtml(
-    //   "sellerAddress",
-    //   sellerAddress
-    // );
-    // findByClass("sellerCode").innerHTML += generateHtml(
-    //   "sellerCode",
-    //   sellerCode
-    // );
-    // findByClass("sellerVat").innerHTML += generateHtml("sellerVat", sellerVat);
-    // findByClass("sellerPhone").innerHTML += generateHtml(
-    //   "sellerPhone",
-    //   sellerPhone
-    // );
-    // findByClass("sellerEmail").innerHTML += generateHtml(
-    //   "sellerEmail",
-    //   sellerEmail
-    // );
   } catch (error) {
-    // console.error("Error fetching or processing data:", error);
+    console.error("Error fetching or processing data:", error);
   }
 })();
 
@@ -141,14 +113,18 @@ async function getData() {
 (async function getProductData() {
   try {
     const invoiceData = await getData();
-
     const items = invoiceData.items;
+    const tableHtml = document.querySelector("tbody");
+    let nrCounter = 0;
 
     for (i = 0; i < items.length; i++) {
-      const description = items[`${i}`].description;
-      const quantity = items[`${i}`].quantity;
-      const price = items[`${i}`].price;
-      const discount = items[`${i}`].discount;
+      const tableRow = document.createElement("tr");
+      tableHtml.append(tableRow);
+      for (const key in items[i]) {
+        const tableData = document.createElement("td");
+        tableRow.append(tableData);
+        tableData.innerHTML += items[i][key];
+      }
     }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
