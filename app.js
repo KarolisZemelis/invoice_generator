@@ -125,6 +125,7 @@ async function getData() {
       const tableData = document.createElement("td");
       tableData.innerHTML += nrCounter;
       tableRow.append(tableData);
+
       //console.log sekcija matematikos tikrinimui
 
       console.log(items[i]);
@@ -135,6 +136,7 @@ async function getData() {
       console.log(items[i].quantity);
 
       //console.log sekcija matematikos tikrinimui
+
       nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
@@ -170,13 +172,12 @@ async function getData() {
         }
       }
       // čia rasom kodą toliau
-      const itemPrice = items[i].price;
-      const priceAfterDicount =
-        parseFloat(itemPrice) - parseFloat(discountAmount);
+      const itemPrice = parseFloat(items[i].price).toFixed(2);
+      const itemQty = parseFloat(items[i].quantity).toFixed(2);
+      const priceAfterDicount = itemPrice - parseFloat(discountAmount);
 
-      // const priceAfterDicountTd = document.createElement("td");
-      // priceAfterDicountTd.innerHTML += priceAfterDicount.toFixed(2);
-      // tableRow.append(priceAfterDicountTd);
+      console.log("item price", itemPrice);
+      console.log("discount amount", discountAmount);
       tableRow.append(
         Object.assign(document.createElement("td"), {
           innerHTML: priceAfterDicount.toFixed(2),
@@ -185,8 +186,30 @@ async function getData() {
 
       //nuresetinam discountą kad nebebūtų pridėtas kito ciklo metu jei nebus prekės nuolaidos
       discountAmount = 0;
-
       // pridedam PVM(%) stulpelio duomeis - visada vienodi
+
+      tableRow.append(
+        Object.assign(document.createElement("td"), {
+          innerHTML: "21",
+        })
+      );
+      // paskaičiuojame PVM sumą
+
+      const VAT = parseFloat((priceAfterDicount * 0.21 * itemQty).toFixed(2));
+
+      tableRow.append(
+        Object.assign(document.createElement("td"), {
+          innerHTML: VAT,
+        })
+      );
+      //paskaičiuojam bendrą sumą
+
+      const productTotal = (priceAfterDicount * itemQty + VAT).toFixed(2);
+      tableRow.append(
+        Object.assign(document.createElement("td"), {
+          innerHTML: productTotal,
+        })
+      );
     }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
