@@ -125,7 +125,16 @@ async function getData() {
       const tableData = document.createElement("td");
       tableData.innerHTML += nrCounter;
       tableRow.append(tableData);
+      //console.log sekcija matematikos tikrinimui
 
+      console.log(items[i]);
+      console.log(items[i].description);
+      console.log(items[i].discount.type);
+      console.log(items[i].discount.value);
+      console.log(items[i].price);
+      console.log(items[i].quantity);
+
+      //console.log sekcija matematikos tikrinimui
       nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
@@ -152,8 +161,6 @@ async function getData() {
             tableRow.append(tableData);
           } else {
             const tableData = document.createElement("td");
-            // console.log("we are here in else", discountAmount);
-            // console.log(typeof discountAmount);
             tableData.innerHTML = discountAmount;
             tableRow.append(tableData);
           }
@@ -164,17 +171,22 @@ async function getData() {
       }
       // čia rasom kodą toliau
       const itemPrice = items[i].price;
-      // console.log("item price", itemPrice);
-      // console.log(typeof itemPrice);
-      // console.log("discountAmount", discountAmount);
-      // console.log(typeof discountAmount);
-
       const priceAfterDicount =
         parseFloat(itemPrice) - parseFloat(discountAmount);
 
-      const priceAfterDicountTd = document.createElement("td");
-      priceAfterDicountTd.innerHTML += priceAfterDicount.toFixed(2);
-      tableRow.append(priceAfterDicountTd);
+      // const priceAfterDicountTd = document.createElement("td");
+      // priceAfterDicountTd.innerHTML += priceAfterDicount.toFixed(2);
+      // tableRow.append(priceAfterDicountTd);
+      tableRow.append(
+        Object.assign(document.createElement("td"), {
+          innerHTML: priceAfterDicount.toFixed(2),
+        })
+      );
+
+      //nuresetinam discountą kad nebebūtų pridėtas kito ciklo metu jei nebus prekės nuolaidos
+      discountAmount = 0;
+
+      // pridedam PVM(%) stulpelio duomeis - visada vienodi
     }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
