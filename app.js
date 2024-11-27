@@ -69,7 +69,7 @@ async function getData() {
       if (buyerDetails.hasOwnProperty(key)) {
         // Check if there's an element in the document with a class matching the current key
         if (document.querySelector(`.${key}`)) {
-          findByClass(`${key}`).innerHTML += generateHtml(
+          findByClass(`${key}`, buyerDetailsHtml).innerHTML += generateHtml(
             `${key}`,
             buyerDetails[key]
           );
@@ -116,6 +116,8 @@ async function getData() {
     const items = invoiceData.items;
     const tableHtml = document.querySelector("tbody");
     let nrCounter = 1;
+    let itemPrice;
+    let discountAmount = 0;
 
     for (i = 0; i < items.length; i++) {
       const tableRow = document.createElement("tr");
@@ -123,26 +125,36 @@ async function getData() {
       const tableData = document.createElement("td");
       tableData.innerHTML += nrCounter;
       tableRow.append(tableData);
+
       nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
-        let discountAmount = 0;
+
+        //apacioje kodas tvarkosi su stulpeliu : Nuolaida jei items raktas yra discount
+
         if (key === "discount" && key != "") {
           if (items[i][key].type === "fixed") {
             const tableData = document.createElement("td");
-            discountAmount = items[i][key].value;
-            tableData.innerHTML += discountAmount;
+            discountAmount = parseFloat(items[i][key].value);
+
+            tableData.innerHTML += discountAmount.toFixed(2);
             tableRow.append(tableData);
+
+            // jei yra nuolaida ir jei nuolaida yra fixed tuomet pridedam TD ir kaina minus discountAmount
           } else if (items[i][key].type === "percentage" && key != "") {
             const tableData = document.createElement("td");
+
             discountAmount = parseFloat(
               items[i].price * (items[i][key].value / 100)
             ).toFixed(2);
+
             tableData.innerHTML += discountAmount;
             tableRow.append(tableData);
           } else {
             const tableData = document.createElement("td");
-            tableData.innerHTML += "";
+            // console.log("we are here in else", discountAmount);
+            // console.log(typeof discountAmount);
+            tableData.innerHTML = discountAmount;
             tableRow.append(tableData);
           }
         } else {
@@ -150,6 +162,19 @@ async function getData() {
           tableRow.append(tableData);
         }
       }
+      // čia rasom kodą toliau
+      const itemPrice = items[i].price;
+      // console.log("item price", itemPrice);
+      // console.log(typeof itemPrice);
+      // console.log("discountAmount", discountAmount);
+      // console.log(typeof discountAmount);
+
+      const priceAfterDicount =
+        parseFloat(itemPrice) - parseFloat(discountAmount);
+
+      const priceAfterDicountTd = document.createElement("td");
+      priceAfterDicountTd.innerHTML += priceAfterDicount.toFixed(2);
+      tableRow.append(priceAfterDicountTd);
     }
   } catch (error) {
     console.error("Error fetching or processing data:", error);
