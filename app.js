@@ -275,11 +275,7 @@ async function getProductData() {
       discountAmount = 0;
     }
 
-    const allProductTotalArray = [
-      { sum: allProductTotal },
-      { sumWords: numberToWordsLT(allProductTotal) },
-    ];
-    return allProductTotalArray;
+    return allProductTotal.toFixed(2);
   } catch (error) {
     console.error("Error fetching or processing data:", error);
     throw error;
@@ -287,7 +283,23 @@ async function getProductData() {
 }
 
 // Use elsewhere
-(async function main() {
-  const result = await getProductData();
-  console.log(result); // Access the data
+(async function populateTotalSection() {
+  const totals = await getProductData();
+  const totalsNumb = parseFloat(totals);
+  const data = await getData();
+  const shippingPrice = parseFloat(data.shippingPrice);
+  const vat = (totalsNumb + shippingPrice) * 0.21;
+  const invoiceTotal = Number(totalsNumb) + Number(shippingPrice) + Number(vat);
+
+  numberToWordsLT(invoiceTotal);
+
+  console.log(typeof totalsNumb);
+  console.log(typeof shippingPrice);
+  console.log(typeof vat);
+
+  findByClass("itemTotal").innerHTML = `${totals}€`;
+  findByClass("transport").innerHTML = `${shippingPrice}€`;
+  findByClass("totalVat").innerHTML = `${vat.toFixed(2)}€`;
+  findByClass("invoiceTotal").innerHTML = `${invoiceTotal.toFixed(2)}€`;
+  findByClass("totalWords").innerHTML = `${numberToWordsLT(invoiceTotal)}`;
 })();
