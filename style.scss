@@ -1,3 +1,13 @@
+// laikina
+li {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.done {
+  text-decoration: line-through;
+  font-weight: normal;
+}
 .invoice_details_container {
   display: flex;
   flex-direction: column;
@@ -20,12 +30,10 @@
   .seller_details {
     border: 1px solid black;
     width: 100%;
+
     div {
       display: flex;
       align-items: center;
-      div {
-        padding-left: 1%;
-      }
     }
   }
 }
@@ -37,3 +45,60 @@
     border: 1px solid;
   }
 }
+
+.itemTotalContainer,
+.transportContainer,
+.vatContainer,
+.invoiceTotalContainer,
+.totalWordContainer {
+  display: flex;
+  align-items: center;
+  gap: 2%;
+}
+
+// @media print {
+//   @page {
+//     size: A4; /* Set the page size to A4 */
+//     margin: 20mm; /* Adjust margins (default is often too wide) */
+//   }
+
+//   body {
+//     margin: 0; /* Remove default margins */
+//     padding: 0;
+//     width: 210mm; /* A4 width */
+//     height: 297mm; /* A4 height */
+//     font-size: 12pt; /* Adjust font size for readability */
+//   }
+
+//   /* Remove elements not needed for printing */
+//   header,
+//   footer,
+//   .no-print {
+//     display: none;
+//   }
+
+//   /* Ensure tables and content fit within A4 */
+//   table {
+//     width: 100%; /* Tables stretch to fill the page width */
+//     border-collapse: collapse;
+//   }
+
+//   table td,
+//   table th {
+//     padding: 5px; /* Add spacing for clarity */
+//     border: 1px solid #000; /* Optional: Visible borders */
+//   }
+// }
+
+// body {
+//   width: 190mm; /* A4 width minus 20mm margins */
+//   margin: auto; /* Center on the page */
+//   word-wrap: break-word;
+//   overflow-wrap: break-word;
+// }
+// @media print {
+//   .invoice-section {
+//     page-break-inside: avoid; /* Prevent breaking inside sections */
+//     page-break-after: always; /* Start new sections on a new page */
+//   }
+// }

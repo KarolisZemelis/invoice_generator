@@ -9,15 +9,6 @@
   </head>
   <body>
     <header></header>
-    <!-- Naudojant HTML ir CSS padaryti realiai atrodančią (naudojant minimalų
-    spalvų kiekį) sąskaitą faktūrą, kurią būtų galim atspausdinti: Sąskaitoje
-    turi matytis užrašas PVM SĄSKAITA FAKTŪRA, sąskaitos numeris, pardavėjo ir
-    pirkėjo duomenys, sąskaitos data ir mokėjimo termino data. Išvardintos
-    prekės, jų pavadinimai, jeigu yra nurodytos nuolaidos (fiksuotos nuolaidos
-    dydis su minuso ženklu, procentinės- procentai ir kainos dalis pagal
-    procentus su minuso ženklu), transportavimo išlaidos. Paskaičiuota tarpinė
-    kaina, įvertinant kiekius, nuolaidas ir transportavimo išlaidas,
-    paskaičiuotas pvm 21% ir galutinė kaina su PVM -->
     <main>
       <div class="invoice_details_container">
         <h1>SĄSKAITA FAKTŪRA</h1>
@@ -27,6 +18,27 @@
         <div class="date"></div>
       </div>
       <div class="seller_buyer_container">
+        <div class="seller_details">
+          <h3>Pardavėjo duomenys</h3>
+          <div class="name">
+            <p>Pavadinimas:</p>
+          </div>
+          <div class="address">
+            <p>Adresas:</p>
+          </div>
+          <div class="code">
+            <p>Kodas:</p>
+          </div>
+          <div class="vat">
+            <p>VAT:</p>
+          </div>
+          <div class="phone">
+            <p>Tel.Nr.:</p>
+          </div>
+          <div class="email">
+            <p>El.Paštas:</p>
+          </div>
+        </div>
         <div class="buyer_details">
           <h3>Pirkėjo duomenys</h3>
           <div class="name">
@@ -48,27 +60,7 @@
             <p>El.Paštas:</p>
           </div>
         </div>
-        <div class="seller_details">
-          <h3>Pirkėjo duomenys</h3>
-          <div class="name">
-            <p>Pavadinimas:</p>
-          </div>
-          <div class="address">
-            <p>Adresas:</p>
-          </div>
-          <div class="code">
-            <p>Kodas:</p>
-          </div>
-          <div class="vat">
-            <p>VAT:</p>
-          </div>
-          <div class="phone">
-            <p>Tel.Nr.:</p>
-          </div>
-          <div class="email">
-            <p>El.Paštas:</p>
-          </div>
-        </div>
+
       </div>
       <div class="product_table_container">
         <table>
@@ -90,8 +82,20 @@
 
       </div>
       <div class="totalNumbersContainer">
-        <div class="totalNumbers">
+        <div class="itemTotalContainer">
           <p>Suma: </p>
+          <div class="itemTotal"></div>
+        </div>
+        <div class="transportContainer">
+          <p>Transportas: </p>
+          <div class="transport"></div>
+        </div>
+        <div class="vatContainer">
+          <p>PVM(21.00%): </p>
+          <div class="totalVat"></div>
+        </div>
+        <div class="invoiceTotalContainer">
+          <p>Suma viso: </p>
           <div class="invoiceTotal"></div>
         </div>
       </div>
@@ -101,5 +105,23 @@
       </div>
       </div>
     </main>
+    <ol>
+      <li class="">padaryti sąskaitą faktūrą, kurią būtų galim atspausdinti. </li>
+      <li class="done">turi matytis užrašas PVM SĄSKAITA FAKTŪRA </li>
+      <li class="done">sąskaitos numeris, </li>
+      <li class="done">pardavėjo duomenys, ir </li>
+      <li class="done">pirkėjo duomenys</li>
+      <li class="done">sąskaitos data </li>
+      <li class="">mokėjimo termino data   </li>
+      p
+      <li class="done">išvardintos prekės</li>
+      <li class="done">jų pavadinimai </li>
+      <li class="">fiksuotos nuolaidos dydis su minuso ženklu </li>
+      <li class="">procentinės- procentai ir kainos dalis pagal procentus su minuso ženklu </li>
+      <li class="">transportavimo išlaidos </li>
+      <li class="done">įvertinant kiekius, nuolaidas ir transportavimo išlaidas </li>
+      <li class="">paskaičiuotas pvm 21% </li>
+      <li class="">galutinė kaina su PVM </li>
+    </ol>
   </body>
 </html>
