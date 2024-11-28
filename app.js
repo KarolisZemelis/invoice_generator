@@ -220,115 +220,74 @@ async function getData() {
     console.error("Error fetching or processing data:", error);
   }
 })();
-let invoiceTotal = 0;
+
 // gets product details for the invoice
-(async function getProductData() {
+async function getProductData() {
   try {
     const invoiceData = await getData();
     const items = invoiceData.items;
     const tableHtml = document.querySelector("tbody");
     let nrCounter = 1;
-    let itemPrice;
     let discountAmount = 0;
-    let tableData;
+    let allProductTotal = 0;
 
-    for (i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
       const tableRow = document.createElement("tr");
       tableHtml.append(tableRow);
-      tableData = document.createElement("td");
+      const tableData = document.createElement("td");
       tableData.innerHTML += nrCounter;
       tableRow.append(tableData);
-
-      //console.log sekcija matematikos tikrinimui
-
-      console.log(items[i]);
-      console.log(items[i].description);
-      console.log(items[i].discount.type);
-      console.log(items[i].discount.value);
-      console.log(items[i].price);
-      console.log(items[i].quantity);
-
-      //console.log sekcija matematikos tikrinimui
 
       nrCounter++;
       for (const key in items[i]) {
         const tableData = document.createElement("td");
-
-        //apacioje kodas tvarkosi su stulpeliu : Nuolaida jei items raktas yra discount
-
-        if (key === "discount" && key != "") {
+        if (key === "discount") {
           if (items[i][key].type === "fixed") {
-            const tableData = document.createElement("td");
             discountAmount = parseFloat(items[i][key].value);
-
             tableData.innerHTML += discountAmount.toFixed(2);
-            tableRow.append(tableData);
-
-            // jei yra nuolaida ir jei nuolaida yra fixed tuomet pridedam TD ir kaina minus discountAmount
-          } else if (items[i][key].type === "percentage" && key != "") {
-            const tableData = document.createElement("td");
-
+          } else if (items[i][key].type === "percentage") {
             discountAmount = parseFloat(
               items[i].price * (items[i][key].value / 100)
             ).toFixed(2);
-
             tableData.innerHTML += discountAmount;
-            tableRow.append(tableData);
-          } else {
-            const tableData = document.createElement("td");
-            tableData.innerHTML = discountAmount;
-            tableRow.append(tableData);
           }
         } else {
           tableData.innerHTML += items[i][key];
-          tableRow.append(tableData);
         }
+        tableRow.append(tableData);
       }
-      // čia rasom kodą toliau
-      itemPrice = parseFloat(items[i].price).toFixed(2);
+
+      const itemPrice = parseFloat(items[i].price).toFixed(2);
       const itemQty = parseFloat(items[i].quantity).toFixed(2);
-      const priceAfterDicount = itemPrice - parseFloat(discountAmount);
-
-      tableRow.append(
-        Object.assign(document.createElement("td"), {
-          innerHTML: priceAfterDicount.toFixed(2),
-        })
-      );
-
-      //nuresetinam discountą kad nebebūtų pridėtas kito ciklo metu jei nebus prekės nuolaidos
-      discountAmount = 0;
-      // pridedam PVM(%) stulpelio duomeis - visada vienodi
-
-      tableRow.append(
-        Object.assign(document.createElement("td"), {
-          innerHTML: "21",
-        })
-      );
-      // paskaičiuojame PVM sumą
-
-      const VAT = parseFloat((priceAfterDicount * 0.21 * itemQty).toFixed(2));
-
-      tableRow.append(
-        Object.assign(document.createElement("td"), {
-          innerHTML: VAT,
-        })
-      );
-      //paskaičiuojam bendrą sumą
-
+      const priceAfterDiscount = itemPrice - parseFloat(discountAmount);
       const productTotal = parseFloat(
-        (priceAfterDicount * itemQty + VAT).toFixed(2)
+        (priceAfterDiscount * itemQty).toFixed(2)
       );
+
+      allProductTotal += productTotal;
+
       tableRow.append(
         Object.assign(document.createElement("td"), {
           innerHTML: productTotal,
         })
       );
-      invoiceTotal += productTotal;
+
+      discountAmount = 0;
     }
 
-    findByClass("invoiceTotal").innerHTML += invoiceTotal.toFixed(2);
-    findByClass("totalWords").innerHTML += numberToWordsLT(invoiceTotal);
+    const allProductTotalArray = [
+      { sum: allProductTotal },
+      { sumWords: numberToWordsLT(allProductTotal) },
+    ];
+    return allProductTotalArray;
   } catch (error) {
     console.error("Error fetching or processing data:", error);
+    throw error;
   }
+}
+
+// Use elsewhere
+(async function main() {
+  const result = await getProductData();
+  console.log(result); // Access the data
 })();
