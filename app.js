@@ -18,6 +18,126 @@ function findByClass(className, parentElement = document) {
   return domVariable;
 }
 
+function numberToWordsLT(amount) {
+  const ones = [
+    "",
+    "vienas",
+    "du",
+    "trys",
+    "keturi",
+    "penki",
+    "šeši",
+    "septyni",
+    "aštuoni",
+    "devyni",
+  ];
+  const teens = [
+    "",
+    "vienuolika",
+    "dvylika",
+    "trylika",
+    "keturiolika",
+    "penkiolika",
+    "šešiolika",
+    "septyniolika",
+    "aštuoniolika",
+    "devyniolika",
+  ];
+  const tens = [
+    "",
+    "dešimt",
+    "dvidešimt",
+    "trisdešimt",
+    "keturiasdešimt",
+    "penkiasdešimt",
+    "šešiasdešimt",
+    "septyniasdešimt",
+    "aštuoniasdešimt",
+    "devyniasdešimt",
+  ];
+  const hundreds = [
+    "",
+    "šimtas",
+    "du šimtai",
+    "trys šimtai",
+    "keturi šimtai",
+    "penki šimtai",
+    "šeši šimtai",
+    "septyni šimtai",
+    "aštuoni šimtai",
+    "devyni šimtai",
+  ];
+  const thousands = ["", "tūkstantis", "tūkstančiai", "tūkstančių"];
+
+  function getOnesAndTens(n) {
+    if (n < 10) return ones[n];
+    if (n > 10 && n < 20) return teens[n - 10];
+    return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? " " + ones[n % 10] : "");
+  }
+
+  function convertPart(n) {
+    if (n === 0) return "";
+    const h = Math.floor(n / 100);
+    const t = n % 100;
+    return ((h ? hundreds[h] + " " : "") + (t ? getOnesAndTens(t) : "")).trim();
+  }
+
+  function getThousandsPart(n) {
+    if (n === 0) return "";
+    if (n === 1) return "vienas tūkstantis";
+    const rem = n % 10;
+    const thousandsForm =
+      n % 100 >= 11 && n % 100 <= 19
+        ? thousands[3] // "tūkstančių" for teens
+        : rem === 1
+        ? thousands[1] // "tūkstantis" for singular
+        : rem >= 2 && rem <= 9
+        ? thousands[2] // "tūkstančiai" for plural nominative
+        : thousands[3]; // "tūkstančių" for plural genitive
+    return convertPart(n) + " " + thousandsForm;
+  }
+
+  function getEurosWord(euros) {
+    if (euros % 10 === 1 && euros % 100 !== 11) return "euras";
+    if (
+      euros % 10 >= 2 &&
+      euros % 10 <= 9 &&
+      (euros % 100 < 10 || euros % 100 >= 20)
+    )
+      return "eurai";
+    return "eurų";
+  }
+
+  // Parse amount into euros and cents
+  const [euros, cents] = amount.toFixed(2).split(".").map(Number);
+
+  if (euros === 0 && cents === 0) return "nulis eurų ir 00 ct";
+
+  const eurText =
+    euros < 1000
+      ? convertPart(euros)
+      : getThousandsPart(Math.floor(euros / 1000)) +
+        (euros % 1000 !== 0 ? " " + convertPart(euros % 1000) : "");
+
+  const eurWord = getEurosWord(euros);
+  const ctText = cents < 10 ? "0" + cents : cents;
+
+  return (
+    (eurText ? eurText + " " + eurWord : "") +
+    " ir " +
+    ctText +
+    " ct"
+  ).trim();
+}
+
+// Examples:
+console.log(numberToWordsLT(17989.78)); // septyniolika tūkstančių devyni šimtai aštuoniasdešimt devyni eurai ir 78 ct
+console.log(numberToWordsLT(12.99)); // dvylika eurų ir 99 ct
+console.log(numberToWordsLT(105.1)); // šimtas penki eurai ir 10 ct
+console.log(numberToWordsLT(9588.59)); // devyni tūkstančiai penki šimtai aštuoniasdešimt aštuoni eurai ir 59 ct
+console.log(numberToWordsLT(57001.84)); // penkiasdešimt septyni tūkstančiai vienas euras ir 84 ct
+console.log(numberToWordsLT(104459)); // šimtas keturi tūkstančiai keturi šimtai penkiasdešimt devyni eurai ir 00 ct
+
 const url = "https://in3.dev/inv/";
 
 async function getData() {
@@ -110,7 +230,7 @@ async function getData() {
 })();
 let invoiceTotal = 0;
 // gets product details for the invoice
-async function getProductData() {
+(async function getProductData() {
   try {
     const invoiceData = await getData();
     const items = invoiceData.items;
@@ -213,11 +333,10 @@ async function getProductData() {
       );
       invoiceTotal += productTotal;
     }
-    console.log("invoice total", invoiceTotal);
+
     findByClass("invoiceTotal").innerHTML += invoiceTotal.toFixed(2);
+    findByClass("totalWords").innerHTML += numberToWordsLT(invoiceTotal);
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
-}
-
-console.log("funkcija returnina", getProductData());
+})();
