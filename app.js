@@ -130,14 +130,6 @@ function numberToWordsLT(amount) {
   ).trim();
 }
 
-// Examples:
-console.log(numberToWordsLT(17989.78)); // septyniolika tūkstančių devyni šimtai aštuoniasdešimt devyni eurai ir 78 ct
-console.log(numberToWordsLT(12.99)); // dvylika eurų ir 99 ct
-console.log(numberToWordsLT(105.1)); // šimtas penki eurai ir 10 ct
-console.log(numberToWordsLT(9588.59)); // devyni tūkstančiai penki šimtai aštuoniasdešimt aštuoni eurai ir 59 ct
-console.log(numberToWordsLT(57001.84)); // penkiasdešimt septyni tūkstančiai vienas euras ir 84 ct
-console.log(numberToWordsLT(104459)); // šimtas keturi tūkstančiai keturi šimtai penkiasdešimt devyni eurai ir 00 ct
-
 const url = "https://in3.dev/inv/";
 
 async function getData() {
