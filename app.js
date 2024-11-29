@@ -258,7 +258,7 @@ async function getProductData() {
               items[i].price * (items[i][key].value / 100)
             ).toFixed(2);
 
-            tableData.innerHTML += `${items[i][key].value}% - ${discountAmount}`;
+            tableData.innerHTML += `${items[i][key].value}% <br>- ${discountAmount}`;
           }
         } else {
           tableData.innerHTML += items[i][key];

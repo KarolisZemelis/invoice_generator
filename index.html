@@ -9,9 +9,9 @@
   </head>
   <body>
     <header></header>
-    <main>
+    <main class=".invoice-container">
       <div class="invoice_details_container">
-        <h1>SĄSKAITA FAKTŪRA</h1>
+        <h1>PVM Sąskaita faktūra</h1>
         <div class="number">
           <h3>Serija:</h3>
         </div>
@@ -20,7 +20,7 @@
       <div class="seller_buyer_container">
         <div class="seller_details">
           <h3>Pardavėjo duomenys:</h3>
-          <div class="name">
+          <div class="name" class="">
             <p>Pavadinimas:</p>
           </div>
           <div class="address">
@@ -65,7 +65,7 @@
         <table>
           <thead>
             <tr class="table_headers">
-              <th>Nr.</th>
+              <th>Eil. Nr.</th>
               <th>Prekės/paslaugos pavadinimas</th>
               <th>Kiekis</th>
               <th>Kaina (be PVM) Eur</th>
@@ -95,15 +95,19 @@
             <p>Suma viso:</p>
             <div class="invoiceTotal"></div>
           </div>
+          <div class="totalWordContainer">
+            <p>Suma žodžiais:</p>
+            <div class="totalWords"></div>
+          </div>
+          <div class="dueDate">
+            <p>Apmokėti iki:</p>
+            <div class="due_date"></div>
+          </div>
         </div>
-        <div class="totalWordContainer">
-          <p>Suma žodžiais:</p>
-          <div class="totalWords"></div>
-        </div>
-        <div class="dueDate">
-          <p>Apmokėti iki:</p>
-          <div class="due_date"></div>
-        </div>
+      </div>
+      <div class="signature_container">
+        <div>Sąskaitą išrašė:</div>
+        <div>Sąskaitą pasirašė:</div>
       </div>
     </main>
   </body>
