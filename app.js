@@ -18,6 +18,11 @@ function findByClass(className, parentElement = document) {
   return domVariable;
 }
 
+/**
+ * Function to transform invoice total number to string (number amount transformed to words)
+ * @param {number} amount - The value of the className found in DOM
+ * @returns {string} - reutrns number converted to string
+ */
 function numberToWordsLT(amount) {
   const ones = [
     "",
@@ -227,6 +232,7 @@ async function getProductData() {
     const invoiceData = await getData();
     const items = invoiceData.items;
     const tableHtml = document.querySelector("tbody");
+
     let nrCounter = 1;
     let discountAmount = 0;
     let allProductTotal = 0;
@@ -244,12 +250,15 @@ async function getProductData() {
         if (key === "discount") {
           if (items[i][key].type === "fixed") {
             discountAmount = parseFloat(items[i][key].value);
-            tableData.innerHTML += discountAmount.toFixed(2);
+
+            tableData.innerHTML += -Math.abs(discountAmount.toFixed(2));
+            tableRow.append(tableData);
           } else if (items[i][key].type === "percentage") {
             discountAmount = parseFloat(
               items[i].price * (items[i][key].value / 100)
             ).toFixed(2);
-            tableData.innerHTML += discountAmount;
+
+            tableData.innerHTML += `${items[i][key].value}% - ${discountAmount}`;
           }
         } else {
           tableData.innerHTML += items[i][key];
@@ -259,12 +268,19 @@ async function getProductData() {
 
       const itemPrice = parseFloat(items[i].price).toFixed(2);
       const itemQty = parseFloat(items[i].quantity).toFixed(2);
-      const priceAfterDiscount = itemPrice - parseFloat(discountAmount);
+      const priceAfterDiscount =
+        itemPrice - parseFloat(discountAmount).toFixed(2);
       const productTotal = parseFloat(
         (priceAfterDiscount * itemQty).toFixed(2)
       );
 
       allProductTotal += productTotal;
+
+      tableRow.append(
+        Object.assign(document.createElement("td"), {
+          innerHTML: priceAfterDiscount,
+        })
+      );
 
       tableRow.append(
         Object.assign(document.createElement("td"), {
@@ -282,7 +298,7 @@ async function getProductData() {
   }
 }
 
-// Use elsewhere
+//populates the totals section
 (async function populateTotalSection() {
   const totals = await getProductData();
   const totalsNumb = parseFloat(totals);
@@ -292,10 +308,6 @@ async function getProductData() {
   const invoiceTotal = Number(totalsNumb) + Number(shippingPrice) + Number(vat);
 
   numberToWordsLT(invoiceTotal);
-
-  console.log(typeof totalsNumb);
-  console.log(typeof shippingPrice);
-  console.log(typeof vat);
 
   findByClass("itemTotal").innerHTML = `${totals}€`;
   findByClass("transport").innerHTML = `${shippingPrice}€`;
