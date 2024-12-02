@@ -249,9 +249,8 @@ async function getProductData() {
         const tableData = document.createElement("td");
         if (key === "discount") {
           if (items[i][key].type === "fixed") {
-            discountAmount = parseFloat(items[i][key].value);
-
-            tableData.innerHTML += -Math.abs(discountAmount.toFixed(2));
+            discountAmount = parseFloat(items[i][key].value).toFixed(2);
+            tableData.innerHTML += -Math.abs(discountAmount);
             tableRow.append(tableData);
           } else if (items[i][key].type === "percentage") {
             discountAmount = parseFloat(
@@ -278,7 +277,7 @@ async function getProductData() {
 
       tableRow.append(
         Object.assign(document.createElement("td"), {
-          innerHTML: priceAfterDiscount,
+          innerHTML: priceAfterDiscount.toFixed(2),
         })
       );
 
